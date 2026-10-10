@@ -1,0 +1,21 @@
+# 依赖与缓存
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 密钥与本地配置（绝不上传真实 Token）
+.env
+*.local.json
+config.local.*
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 临时产物
+*.log
+tmp/
+output/
