@@ -115,3 +115,13 @@ description: 麦门隐藏菜单实验室 —— 还原全网网红隐藏吃法�
 | 下单 | `create-order` | ⚠️ 必须用户确认 |
 
 常见错误：401（Token 失效）、429（超 600 次/分钟限流）。
+
+## 已实测的坑位（务必遵守）
+
+1. `calculate-price` 的 `items[].roundList` 必须带 `round` 字段（round id 字符串），格式：`[{"round":"1","comboItemList":[{"code":"4106","quantity":1}]}]`；漏传会报「服务器发生了未知的问题」
+2. 「派」「新地」是**可选口味**商品（派：香芋/菠萝；新地：朱古力/草莓），计价前先 `query-meal-detail` 拿 rounds 再组装
+3. 到店自取场景：`orderType=1 && beType=1`，**不要传 beCode**
+4. `calculate-price` 返回金额单位是**分**（3000 = ¥30.00），展示前除以 100
+5. `list-nutrition-foods` 返回**文本表格**（`名称,null,kJ,kcal,蛋白,脂肪,碳水,钠,钙`），需逐行解析而非 JSON
+6. `query-nearby-stores` 的 `keyword` 不能为空串（报 600058）
+7. 菜单随季节/城市变化：每次输出配方前必须重新核验在售状态与价格，禁止使用记忆中的旧价格

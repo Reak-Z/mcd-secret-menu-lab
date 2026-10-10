@@ -3,6 +3,11 @@
 > 用麦当劳官方食材，炼出你的专属吃法。
 > 全网网红隐藏吃法的**还原器** + 你的专属**配方发明机**。
 
+[![Stars](https://img.shields.io/github/stars/Reak-Z/mcd-secret-menu-lab?style=social)](https://github.com/Reak-Z/mcd-secret-menu-lab)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![MCP](https://img.shields.io/badge/MCP-McDonald's%20China-DA291C)](https://github.com/M-China/mcd-mcp-server)
+[![Powered by WorkBuddy](https://img.shields.io/badge/Powered%20by-WorkBuddy-2F6BFF)](https://www.workbuddy.cn/)
+
 **2026 麦当劳程序员创意开发大赛参赛作品** · 基于 [麦当劳中国官方 MCP](https://github.com/M-China/mcd-mcp-server) 开发 · 使用 [WorkBuddy](https://www.workbuddy.cn/) 构建
 
 ---
@@ -135,9 +140,11 @@
 │   └── flavor-matrix.md        # 风味兼容性矩阵（配方引擎的知识内核）
 ├── tools/
 │   ├── make_recipe_card.py     # 配方卡图片生成器（1080×1350 可分享版式）
-│   └── make_demo_gif.py        # 对话演示 GIF 生成器
+│   ├── make_demo_gif.py        # 对话演示 GIF 生成器
+│   └── make_social_poster.py   # 社交物料生成器（封面海报 + 合集图）
 ├── assets/
 │   ├── cards/                  # 生成的配方卡图片（14 张）
+│   ├── social/                 # 传播物料（封面海报 + 配方合集图）
 │   └── demo.gif                # 对话演示动画
 ├── examples/
 │   └── live-verification-2026-10-10.md  # 真实链路核验记录
