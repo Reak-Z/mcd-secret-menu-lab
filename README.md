@@ -14,7 +14,7 @@
 
 **基于 [麦当劳中国官方 MCP](https://github.com/M-China/mcd-mcp-server) 开发 · 使用 [WorkBuddy](https://www.workbuddy.cn/) 构建**
 
-> 🍟 **只想看配方？** → 🌐 [在线配方画廊](https://reak-z.github.io/mcd-secret-menu-lab/)（手机友好）｜ [14 个实测配方文档](references/recipes.md) ｜ 🎬 见下方[在线演示](#-在线演示) ｜ 🧪 [投稿你的 DIY](DIY_RANKING.md)
+> 🍟 **只想看配方？** → 🌐 [在线配方画廊](https://reak-z.github.io/mcd-secret-menu-lab/)（手机友好）｜ 🎯 [测测隐藏吃法人格](https://reak-z.github.io/mcd-secret-menu-lab/quiz/) ｜ [14 个实测配方文档](references/recipes.md) ｜ 🎬 见下方[在线演示](#-在线演示) ｜ 🧪 [投稿你的 DIY](DIY_RANKING.md)
 
 ---
 
@@ -203,6 +203,7 @@ python tools/install.py
 - [x] **对话演示 GIF**（2026-10-10：11 帧动画，183KB，见上方演示）
 - [x] **社区 DIY 功能**（2026-10-10：Issue 投稿模板 + 反应数排行榜 + Actions 每日自动更新）
 - [x] **省钱助手**（2026-10-10：一键领券 + 临期券预警 + 券后最优价）
+- [x] **隐藏吃法人格测试**（2026-10-10：6 型人格 × 配方匹配，零门槛传播入口）
 - [ ] 配方库持续扩容（欢迎投稿你的独门吃法！）
 
 ---

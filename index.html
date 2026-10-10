@@ -29,6 +29,7 @@
   .bar button, .bar a { border:0; border-radius:999px; padding:10px 18px; font-size:14px;
         cursor:pointer; text-decoration:none; font-family:inherit; transition:.15s; }
   .bar .primary { background:var(--red); color:#fff; font-weight:600; }
+  .bar .gold { background:var(--yellow); color:var(--dark); font-weight:700; }
   .bar .ghost { background:#fff; color:var(--dark); box-shadow:0 1px 6px rgba(0,0,0,.1); }
   .bar button:hover, .bar a:hover { transform:translateY(-1px); }
   .sorts { max-width:1100px; margin:0 auto; padding:10px 16px 0; display:flex; gap:8px;
@@ -86,6 +87,7 @@
 
 <div class="bar">
   <button class="primary" onclick="randomPick()">🎲 随机来一个</button>
+  <a class="gold" href="quiz/">🎯 测测隐藏吃法人格</a>
   <button class="ghost" onclick="copyShare()">📋 复制分享文案</button>
   <a class="ghost" href="https://github.com/Reak-Z/mcd-secret-menu-lab" target="_blank" rel="noopener">GitHub 仓库 ↗</a>
   <a class="ghost" href="https://github.com/Reak-Z/mcd-secret-menu-lab/issues/new?template=diy-recipe.md" target="_blank" rel="noopener">投稿我的 DIY ↗</a>

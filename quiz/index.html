@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>隐藏吃法人格测试 · 麦门隐藏菜单实验室</title>
+<meta name="description" content="6 道题，测出你的隐藏吃法人格（甜系炼金师/咸香掌门/冰火玩家…），并匹配属于你的实测配方">
+<meta property="og:title" content="隐藏吃法人格测试 · 你是哪一种？">
+<meta property="og:description" content="6 道题测出你的隐藏吃法人格，匹配 14 个实测配方中属于你的那一个">
+<meta property="og:image" content="https://reak-z.github.io/mcd-secret-menu-lab/assets/social/cover.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root { --red:#DA291C; --yellow:#FFC72C; --dark:#2d2d2d; --gray:#8a8a8a; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+         background:#faf8f5; color:var(--dark); -webkit-font-smoothing:antialiased;
+         min-height:100vh; display:flex; flex-direction:column; }
+  header { background:var(--red); color:#fff; padding:24px 20px 20px; text-align:center; }
+  header h1 { font-size:22px; letter-spacing:1px; }
+  header .sub { color:var(--yellow); margin-top:6px; font-size:13px; font-weight:600; }
+  main { flex:1; max-width:640px; width:100%; margin:0 auto; padding:22px 18px 40px; }
+  .panel { background:#fff; border-radius:18px; padding:24px 20px; box-shadow:0 2px 14px rgba(0,0,0,.07); }
+  .intro p { font-size:15px; line-height:1.9; color:#555; }
+  .intro .big { font-size:17px; color:var(--dark); font-weight:600; }
+  .btn { display:inline-block; border:0; border-radius:999px; padding:14px 30px; font-size:16px;
+         font-weight:700; cursor:pointer; font-family:inherit; text-decoration:none; transition:.15s; }
+  .btn.py { background:var(--yellow); color:var(--dark); }
+  .btn.rd { background:var(--red); color:#fff; }
+  .btn.gh { background:#fff; color:var(--dark); box-shadow:0 1px 8px rgba(0,0,0,.12); }
+  .btn:hover { transform:translateY(-1px); }
+  .cta-row { margin-top:22px; text-align:center; }
+  .dots { display:flex; gap:6px; justify-content:center; margin-bottom:18px; }
+  .dot { width:26px; height:5px; border-radius:99px; background:#eee2d9; }
+  .dot.on { background:var(--red); }
+  .q-text { font-size:19px; font-weight:700; line-height:1.5; margin-bottom:18px; }
+  .opt { display:block; width:100%; text-align:left; background:#faf7f3; border:2px solid transparent;
+         border-radius:14px; padding:14px 16px; font-size:15px; line-height:1.5; margin-bottom:10px;
+         cursor:pointer; font-family:inherit; color:var(--dark); transition:.13s; }
+  .opt:hover { border-color:var(--yellow); background:#fff; }
+  .result h2 { font-size:26px; margin-bottom:6px; }
+  .result .tagline { color:var(--red); font-weight:700; font-size:15px; margin-bottom:14px; }
+  .result .desc { font-size:15px; line-height:1.9; color:#555; margin-bottom:18px; }
+  .match-title { font-size:14px; color:var(--gray); margin:20px 0 10px; }
+  .cards { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .cards img { width:100%; border-radius:12px; display:block; box-shadow:0 2px 10px rgba(0,0,0,.1); }
+  .bars { margin:18px 0 6px; }
+  .bar-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; font-size:13px; }
+  .bar-row .k { width:110px; color:#666; text-align:right; }
+  .bar { flex:1; height:10px; background:#f1ece6; border-radius:99px; overflow:hidden; }
+  .bar i { display:block; height:100%; background:var(--red); border-radius:99px; }
+  .actions { display:flex; flex-direction:column; gap:10px; margin-top:22px; }
+  .actions .btn { width:100%; text-align:center; }
+  footer { text-align:center; padding:22px 16px 34px; color:var(--gray); font-size:12px; line-height:2; }
+  footer a { color:var(--red); text-decoration:none; }
+  #toast { position:fixed; left:50%; bottom:36px; transform:translateX(-50%) translateY(20px);
+           background:rgba(30,30,30,.92); color:#fff; padding:10px 20px; border-radius:999px;
+           font-size:14px; opacity:0; transition:.25s; pointer-events:none; z-index:200; }
+  #toast.on { opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<header>
+  <h1>🎯 隐藏吃法人格测试</h1>
+  <div class="sub">麦门隐藏菜单实验室 · 6 道题找到属于你的吃法</div>
+</header>
+
+<main>
+  <div class="panel" id="panel">
+    <!-- 由 JS 渲染 -->
+  </div>
+</main>
+
+<footer>
+  本项目为 2026 麦当劳程序员创意开发大赛参赛作品 · 非麦当劳官方产品<br>
+  <a href="https://reak-z.github.io/mcd-secret-menu-lab/">← 返回配方画廊（14 个实测配方）</a> ·
+  <a href="https://github.com/Reak-Z/mcd-secret-menu-lab" target="_blank" rel="noopener">GitHub 仓库</a>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+const SITE = "https://reak-z.github.io/mcd-secret-menu-lab/";
+const QUIZ_URL = SITE + "quiz/";
+
+// ===== 人格定义 =====
+const PERSONAS = {
+  sweet: {
+    name: "甜系炼金师", emoji: "🍦",
+    tagline: "万物皆可蘸冰淇淋",
+    desc: "在你的世界里，没有什么是不能变甜的——薯条可以、可乐可以、咖啡也可以。你擅长用一勺冰淇淋改造整个菜单，是朋友圈里公认的『甜点改造家』。",
+    bars: { "甜度": 95, "创意": 85, "冒险": 70, "性价比": 55, "轻负担": 35 },
+    recipes: [
+      { img: "assets/cards/card_010.png", name: "麦旋风双拼" },
+      { img: "assets/cards/card_009.png", name: "雪顶麦炫酷" }
+    ],
+    share: "我是「甜系炼金师」🍦 万物皆可蘸冰淇淋！"
+  },
+  savory: {
+    name: "咸香掌门", emoji: "🧀",
+    tagline: "芝士就是力量",
+    desc: "你对酱料的研究超过一般人想象——烟熏芝士、牧场酱、山葵酱在你眼里都是武器。你信奉『咸香浓才是真享受』，一口拉丝胜过千言万语。",
+    bars: { "咸香": 95, "浓郁": 90, "创意": 70, "冒险": 65, "轻负担": 30 },
+    recipes: [
+      { img: "assets/cards/card_004.png", name: "芝士瀑布薯条" },
+      { img: "assets/cards/card_012.png", name: "扭扭芝士塔" }
+    ],
+    share: "我是「咸香掌门」🧀 芝士就是力量！"
+  },
+  fireice: {
+    name: "冰火玩家", emoji: "🔥",
+    tagline: "一半冰一半热才叫爽",
+    desc: "热派要配冰新地、辣翅要撞冰淇淋——追求反差是你的本能。你不是在吃饭，是在体验极限物理现象（0℃ 与 100℃ 的碰撞）哈哈。",
+    bars: { "冒险": 98, "爽感": 92, "创意": 88, "甜度": 60, "轻负担": 25 },
+    recipes: [
+      { img: "assets/cards/card_005.png", name: "冰火小圆子派" },
+      { img: "assets/cards/card_014.png", name: "焦香撞冰" }
+    ],
+    share: "我是「冰火玩家」🔥 一半冰一半热才叫爽！"
+  },
+  light: {
+    name: "轻享派", emoji: "🥗",
+    tagline: "好吃也要无负担",
+    desc: "点单前你看的不是价格，是热量。你懂得享受，也懂得克制——『轻享』不是委屈自己，而是把每一卡路里都花在刀刃上。",
+    bars: { "轻负担": 95, "自律": 88, "清爽": 82, "甜度": 45, "浓郁": 35 },
+    recipes: [
+      { img: "assets/cards/card_013.png", name: "红茶雪顶" },
+      { img: "assets/cards/card_006.png", name: "双酱鸡块" }
+    ],
+    share: "我是「轻享派」🥗 好吃也要无负担！"
+  },
+  retro: {
+    name: "复古考古家", emoji: "📼",
+    tagline: "经典流传二十年，必有其道理",
+    desc: "你对流传了几十年的经典吃法如数家珍——薯条蘸麦旋风、热派浇新地。新花样可以试，但真正让你念念不忘的，永远是那些经得起时间考验的味道。",
+    bars: { "经典": 95, "情怀": 90, "稳": 85, "冒险": 40, "创意": 50 },
+    recipes: [
+      { img: "assets/cards/card_001.png", name: "薯条蘸麦旋风" },
+      { img: "assets/cards/card_002.png", name: "派上浇冰" }
+    ],
+    share: "我是「复古考古家」📼 经典流传二十年必有其道理！"
+  },
+  budget: {
+    name: "省钱战术家", emoji: "💰",
+    tagline: "十块钱也要吃到仪式感",
+    desc: "你是把每一块钱都用到极致的性价比猎人——券要叠满、组合要最优、隐藏吃法更要便宜又惊喜。10 块钱的冰火小圆子派就是你的得意之作。",
+    bars: { "性价比": 98, "算计": 90, "创意": 75, "薅券": 88, "轻负担": 50 },
+    recipes: [
+      { img: "assets/cards/card_008.png", name: "酸甜脆薯" },
+      { img: "assets/cards/card_003.png", name: "雪顶可乐" }
+    ],
+    share: "我是「省钱战术家」💰 十块钱也能吃到仪式感！"
+  }
+};
+
+// ===== 题目（每题选项给若干人格加分） =====
+const QUESTIONS = [
+  { q: "走进麦当劳，你第一眼看哪里？",
+    opts: [
+      { t: "🍦 甜品站（麦旋风/新地）", s: { sweet: 2 } },
+      { t: "🍗 小食区（鸡块/薯条）", s: { savory: 2 } },
+      { t: "🆕 今天有没有新品", s: { fireice: 2 } },
+      { t: "🎫 优惠券栏（钱包要紧）", s: { budget: 2 } }
+    ] },
+  { q: "薯条到手，第一件事？",
+    opts: [
+      { t: "蘸冰淇淋（老规矩）", s: { retro: 2 } },
+      { t: "淋上芝士酱", s: { savory: 2 } },
+      { t: "番茄酱 + 白糖搅匀", s: { budget: 2 } },
+      { t: "什么都不蘸，趁热吃", s: { light: 1, retro: 1 } }
+    ] },
+  { q: "点单时你最先看哪个数字？",
+    opts: [
+      { t: "价格 ¥", s: { budget: 2 } },
+      { t: "热量 kcal", s: { light: 2 } },
+      { t: "新品 / 限定标记", s: { fireice: 2 } },
+      { t: "招牌经典的标志", s: { retro: 2 } }
+    ] },
+  { q: "如果只能保留一种口感？",
+    opts: [
+      { t: "冰凉丝滑", s: { sweet: 2 } },
+      { t: "咔嚓酥脆", s: { savory: 1, retro: 1 } },
+      { t: "冰火同时出现", s: { fireice: 2 } },
+      { t: "轻盈不腻", s: { light: 2 } }
+    ] },
+  { q: "朋友说「你这吃法好怪」，你会？",
+    opts: [
+      { t: "「这叫创意，懂？」", s: { fireice: 1, sweet: 1 } },
+      { t: "「便宜又好吃，值了」", s: { budget: 2 } },
+      { t: "「经典就是这么吃的」", s: { retro: 2 } },
+      { t: "「我算过热量的，放心」", s: { light: 2 } }
+    ] },
+  { q: "你最想要的『隐藏吃法』是？",
+    opts: [
+      { t: "甜到冒泡", s: { sweet: 2 } },
+      { t: "咸香拉丝", s: { savory: 2 } },
+      { t: "冰火两重天", s: { fireice: 2 } },
+      { t: "十块钱搞定", s: { budget: 2 } }
+    ] }
+];
+
+let step = 0;
+let scores = {};
+
+function start() {
+  step = 0;
+  scores = {}; Object.keys(PERSONAS).forEach(k => scores[k] = 0);
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[step];
+  const dots = QUESTIONS.map((_, i) =>
+    `<span class="dot ${i <= step ? "on" : ""}"></span>`).join("");
+  document.getElementById("panel").innerHTML = `
+    <div class="dots">${dots}</div>
+    <div class="q-text">Q${step + 1}/${QUESTIONS.length}　${q.q}</div>
+    ${q.opts.map((o, i) => `<button class="opt" onclick="answer(${i})">${o.t}</button>`).join("")}
+  `;
+}
+
+function answer(oi) {
+  const s = QUESTIONS[step].opts[oi].s;
+  for (const k in s) scores[k] += s[k];
+  step++;
+  if (step < QUESTIONS.length) renderQuestion();
+  else renderResult();
+}
+
+function winner() {
+  let best = null, bestV = -1;
+  for (const k of Object.keys(PERSONAS)) {
+    if (scores[k] > bestV) { best = k; bestV = scores[k]; }
+  }
+  return best;
+}
+
+function renderResult() {
+  const key = winner();
+  const p = PERSONAS[key];
+  const bars = Object.entries(p.bars).map(([k, v]) =>
+    `<div class="bar-row"><span class="k">${k}</span><span class="bar"><i style="width:${v}%"></i></span></div>`).join("");
+  document.getElementById("panel").innerHTML = `
+    <div class="result">
+      <h2>${p.emoji} ${p.name}</h2>
+      <div class="tagline">${p.tagline}</div>
+      <div class="desc">${p.desc}</div>
+      <div class="bars">${bars}</div>
+      <div class="match-title">🧪 为你匹配的实测配方（点击卡片看大图）：</div>
+      <div class="cards">
+        ${p.recipes.map(r => `<img src="../${r.img}" alt="${r.name} 配方卡" onclick="window.open('../${r.img}')">`).join("")}
+      </div>
+      <div class="actions">
+        <button class="btn py" onclick="copyResult()">📋 复制结果分享给朋友</button>
+        <a class="btn gh" href="${SITE}">去看全部 14 个配方 →</a>
+        <a class="btn rd" href="https://github.com/Reak-Z/mcd-secret-menu-lab" target="_blank" rel="noopener">⭐ Star 支持参赛</a>
+        <button class="btn gh" onclick="start()">🔁 重新测一次</button>
+      </div>
+    </div>
+  `;
+  window.scrollTo({ top: 0 });
+}
+
+function copyResult() {
+  const key = winner();
+  const p = PERSONAS[key];
+  const t = `【隐藏吃法人格】我是「${p.name}」${p.emoji} —— ${p.tagline}\n${p.share}\n你也来测测：${QUIZ_URL}`;
+  copyText(t, "结果文案已复制，去分享吧 ✓");
+}
+
+function copyText(text, okMsg) {
+  const done = () => toast(okMsg || "已复制 ✓");
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else { fallbackCopy(text, done); }
+}
+function fallbackCopy(text, done) {
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); done(); } catch (e) { toast("复制失败，请长按手动复制"); }
+  document.body.removeChild(ta);
+}
+let toastTimer = null;
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("on");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("on"), 1800);
+}
+
+// ===== 开场页 =====
+document.getElementById("panel").innerHTML = `
+  <div class="intro">
+    <p class="big">6 道题，测出你的「隐藏吃法人格」🧪</p>
+    <p style="margin-top:10px">
+      我们的实验室里有 14 个实测隐藏吃法（全部真实核价）。<br>
+      回答 6 个问题，看看哪一种人格最像你——<br>
+      以及为你匹配的专属配方。
+    </p>
+    <div class="cta-row"><button class="btn rd" onclick="start()">开始测试 →</button></div>
+  </div>
+`;
+</script>
+</body>
+</html>
