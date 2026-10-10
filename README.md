@@ -2,16 +2,17 @@
 
 <img src="assets/emblem.png" width="110" align="right" alt="项目标识：烧瓶薯条">
 
-> 用麦当劳官方食材，炼出你的专属吃法。
-> **省钱 × 健康 × 好吃 × 创意** —— 一个四维配方实验室。
-> 全网网红隐藏吃法的**还原器** + 你的专属**配方发明机**。
+> **14 个实测配方 · 最低 ¥10 · 全部真实核价** —— 说一句话，AI 帮你还原全网隐藏吃法、发明专属配方。
+> 省钱 × 健康 × 好吃 × 创意，一个四维配方实验室。
+>
+> **⭐ 本项目正在参加 [2026 麦当劳程序员创意开发大赛](https://github.com/M-China/mcd-developer-innovation-challenge) —— 喜欢的话，[点一颗 Star 支持我们](https://github.com/Reak-Z/mcd-secret-menu-lab) ⭐**
 
 [![Stars](https://img.shields.io/github/stars/Reak-Z/mcd-secret-menu-lab?style=social)](https://github.com/Reak-Z/mcd-secret-menu-lab)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![MCP](https://img.shields.io/badge/MCP-McDonald's%20China-DA291C)](https://github.com/M-China/mcd-mcp-server)
 [![Powered by WorkBuddy](https://img.shields.io/badge/Powered%20by-WorkBuddy-2F6BFF)](https://www.workbuddy.cn/)
 
-**2026 麦当劳程序员创意开发大赛参赛作品** · 基于 [麦当劳中国官方 MCP](https://github.com/M-China/mcd-mcp-server) 开发 · 使用 [WorkBuddy](https://www.workbuddy.cn/) 构建
+**基于 [麦当劳中国官方 MCP](https://github.com/M-China/mcd-mcp-server) 开发 · 使用 [WorkBuddy](https://www.workbuddy.cn/) 构建**
 
 > 🍟 **只想看配方？** → 🌐 [在线配方画廊](https://reak-z.github.io/mcd-secret-menu-lab/)（手机友好）｜ [14 个实测配方文档](references/recipes.md) ｜ 🎬 见下方[在线演示](#-在线演示) ｜ 🧪 [投稿你的 DIY](DIY_RANKING.md)
 
