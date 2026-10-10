@@ -69,7 +69,7 @@ def make_cover(out_path):
     d.text((90, 320), "被我做成了 AI", font=load_font(108), fill=WHITE)
 
     # 副标题
-    d.text((92, 470), "薯条蘸麦旋风，只是入门级", font=load_font(46), fill=YELLOW)
+    d.text((92, 462), "省钱 × 健康 × 好吃 × 创意", font=load_font(46), fill=YELLOW)
 
     # 中间白卡
     _rounded(d, (70, 570, W - 70, 1180), 40, WHITE)
@@ -92,7 +92,7 @@ def make_cover(out_path):
             d.text((W - 130 - pw, y), price, font=load_font(42), fill=RED)
         y += 66
     y += 10
-    d.text((x, y), "全部价格经麦当劳 MCP 实时核验", font=load_font(30), fill=(150, 150, 150))
+    d.text((x, y), "全部价格经麦当劳 MCP 实时核验 · 四维评分见配方卡", font=load_font(30), fill=(150, 150, 150))
 
     # 底部
     d.text((90, H - 190), "说一句话，AI 帮你发明专属吃法", font=load_font(42), fill=CREAM)

@@ -107,6 +107,24 @@ RECIPES = [
      "flavor": "焦辣 × 冰甜 · 极限反差", "kcal": "约 474 kcal"},
 ]
 
+# 四维评分（省钱 / 健康 / 好吃 / 创意 / 健康分级），规则见 references/nutrition-guide.md
+SCORES = {
+    "#001": ("★☆☆", "★☆☆", "★★★", "★★☆", "大满足"),
+    "#002": ("★★☆", "★★☆", "★★★", "★★☆", "大满足"),
+    "#003": ("★★★", "★★★", "★★★", "★★☆", "轻享"),
+    "#004": ("★★☆", "★★☆", "★★★", "★★★", "适中"),
+    "#005": ("★★★", "★★☆", "★★★", "★★☆", "适中"),
+    "#006": ("★★☆", "★★☆", "★★☆", "★★★", "轻享"),
+    "#007": ("★☆☆", "★☆☆", "★★★", "★★☆", "大满足"),
+    "#008": ("★★★", "★★★", "★★☆", "★★☆", "轻享"),
+    "#009": ("★★☆", "★★☆", "★★★", "★★☆", "适中"),
+    "#010": ("★★☆", "★★☆", "★★★", "★★☆", "适中"),
+    "#011": ("★☆☆", "★☆☆", "★★★", "★★☆", "大满足"),
+    "#012": ("★★☆", "★★☆", "★★★", "★★★", "适中"),
+    "#013": ("★★★", "★★★", "★★★", "★★★", "轻享"),
+    "#014": ("★☆☆", "★★☆", "★★★", "★★★", "适中"),
+}
+
 
 def _rounded(d, box, radius, fill):
     try:
@@ -145,7 +163,7 @@ def make_card(r, out_path):
     tw = d.textlength(badge_text, font=f_badge)
     _rounded(d, (x, y, x + tw + 80, y + 84), 42, YELLOW)
     d.text((x + 40, y + 16), badge_text, font=f_badge, fill=RED)
-    y += 84 + 44
+    y += 84 + 34
 
     # 分割线
     d.line((x, y, W - 110, y), fill=LIGHT, width=2)
@@ -173,15 +191,19 @@ def make_card(r, out_path):
     d.line((x, y, W - 110, y), fill=LIGHT, width=2)
     y += 36
 
-    # ===== 风味 / 热量 =====
+    # ===== 风味 / 热量 / 四维评分 =====
+    sc = SCORES.get(r["no"], ("★☆☆", "★☆☆", "★☆☆", "★☆☆", "适中"))
     d.text((x, y), "风味  " + r["flavor"], font=load_font(34), fill=DARK)
-    y += 56
-    d.text((x, y), "热量  " + r["kcal"], font=load_font(34), fill=DARK)
-    y += 80
+    y += 50
+    d.text((x, y), "热量  " + r["kcal"] + " · " + sc[4], font=load_font(34), fill=DARK)
+    y += 50
+    d.text((x, y), "四维  省钱%s 健康%s 好吃%s 创意%s" % (sc[0], sc[1], sc[2], sc[3]),
+           font=load_font(26), fill=RED)
+    y += 70
 
     # 底部注脚
-    d.text((x, H - 150), "价格经麦当劳 MCP 实时核验 · 2026-10-10 · 福州", font=load_font(24), fill=GRAY)
-    d.text((x, H - 112), "仅供创意参考 · 非麦当劳官方产品", font=load_font(24), fill=GRAY)
+    d.text((x, H - 130), "价格经麦当劳 MCP 实时核验 · 2026-10-10 · 福州", font=load_font(24), fill=GRAY)
+    d.text((x, H - 95), "仅供创意参考 · 非麦当劳官方产品", font=load_font(24), fill=GRAY)
 
     img.save(out_path, "PNG")
     return out_path

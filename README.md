@@ -3,6 +3,7 @@
 <img src="assets/emblem.png" width="110" align="right" alt="项目标识：烧瓶薯条">
 
 > 用麦当劳官方食材，炼出你的专属吃法。
+> **省钱 × 健康 × 好吃 × 创意** —— 一个四维配方实验室。
 > 全网网红隐藏吃法的**还原器** + 你的专属**配方发明机**。
 
 [![Stars](https://img.shields.io/github/stars/Reak-Z/mcd-secret-menu-lab?style=social)](https://github.com/Reak-Z/mcd-secret-menu-lab)
@@ -31,7 +32,7 @@
 | 🧑🍳 **DIY 核验** | “我有个吃法：薯条+新地+奥利奥碎” | 核验食材可购 + 实时计价 + 风味评估，生成你的专属配方卡 |
 | 🎫 **省钱助手** | “帮我领券 / 有什么券能用” | 一键领券（需你确认）+ 临期券预警 + 券后最优价（实测：¥19 冰美式 → 券后 ¥9.90） |
 
-每个配方都会生成一张可分享的 **「配方卡」** 📸
+每个配方都会生成一张可分享的 **「配方卡」** 📸 —— 并且都经过**四维核验**：💰省钱（实时计价）· 🥗健康（热量分级 + 钠提示）· 😋好吃（风味矩阵）· 🎨创意（原创度）。评分规则见 [nutrition-guide.md](references/nutrition-guide.md)。
 
 ---
 
