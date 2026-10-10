@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>麦门隐藏菜单实验室 · 配方画廊</title>
+<meta name="description" content="麦当劳隐藏吃法实验室：14 个实测配方，省钱 × 健康 × 好吃 × 创意">
+<style>
+  :root { --red:#DA291C; --yellow:#FFC72C; --dark:#2d2d2d; --gray:#8a8a8a; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+         background:#faf8f5; color:var(--dark); -webkit-font-smoothing:antialiased; }
+  header { background:var(--red); color:#fff; padding:30px 20px 24px; text-align:center; }
+  header h1 { font-size:26px; letter-spacing:1px; }
+  header .sub { color:var(--yellow); margin-top:8px; font-size:15px; font-weight:600; }
+  header .stats { margin-top:12px; font-size:13px; opacity:.85; }
+  .bar { max-width:1100px; margin:0 auto; padding:16px 16px 4px; display:flex; gap:10px;
+         flex-wrap:wrap; justify-content:center; }
+  .bar button, .bar a { border:0; border-radius:999px; padding:10px 18px; font-size:14px;
+        cursor:pointer; text-decoration:none; font-family:inherit; transition:.15s; }
+  .bar .primary { background:var(--red); color:#fff; font-weight:600; }
+  .bar .ghost { background:#fff; color:var(--dark); box-shadow:0 1px 6px rgba(0,0,0,.1); }
+  .bar button:hover, .bar a:hover { transform:translateY(-1px); }
+  .sorts { max-width:1100px; margin:0 auto; padding:10px 16px 0; display:flex; gap:8px;
+           flex-wrap:wrap; justify-content:center; font-size:13px; }
+  .sorts button { border:1px solid #e5e0d8; background:#fff; border-radius:999px;
+                  padding:6px 14px; cursor:pointer; font-family:inherit; color:var(--gray); }
+  .sorts button.on { background:var(--yellow); border-color:var(--yellow); color:var(--dark); font-weight:600; }
+  .grid { max-width:1100px; margin:0 auto; padding:18px 16px 10px;
+          display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:18px; }
+  .card { background:#fff; border-radius:16px; overflow:hidden; cursor:pointer;
+          box-shadow:0 2px 12px rgba(0,0,0,.07); transition:.18s; }
+  .card:hover { transform:translateY(-3px); box-shadow:0 8px 22px rgba(0,0,0,.12); }
+  .card img { width:100%; display:block; }
+  .meta { padding:10px 14px 12px; display:flex; justify-content:space-between; align-items:center; font-size:14px; }
+  .meta .name { font-weight:600; }
+  .meta .price { color:var(--red); font-weight:700; }
+  .badge { display:inline-block; font-size:11px; padding:2px 8px; border-radius:999px; margin-left:6px; vertical-align:1px; }
+  .b-light { background:#e8f5e9; color:#2e7d32; }
+  .b-mid   { background:#fff8e1; color:#b26a00; }
+  .b-heavy { background:#fdecea; color:#c62828; }
+  footer { text-align:center; padding:26px 16px 40px; color:var(--gray); font-size:13px; line-height:2; }
+  footer a { color:var(--red); text-decoration:none; }
+  #modal { position:fixed; inset:0; background:rgba(20,20,20,.86); display:none;
+           align-items:center; justify-content:center; padding:18px; z-index:99; }
+  #modal.on { display:flex; }
+  #modal img { max-width:100%; max-height:92vh; border-radius:14px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🔮 麦门隐藏菜单实验室</h1>
+  <div class="sub">省钱 × 健康 × 好吃 × 创意</div>
+  <div class="stats">14 个实测配方 · 全部经麦当劳 MCP 实时核价 · 最低 ¥10 起</div>
+</header>
+
+<div class="bar">
+  <button class="primary" onclick="randomPick()">🎲 随机来一个</button>
+  <a class="ghost" href="https://github.com/Reak-Z/mcd-secret-menu-lab" target="_blank" rel="noopener">GitHub 仓库 ↗</a>
+  <a class="ghost" href="https://github.com/Reak-Z/mcd-secret-menu-lab/issues/new?template=diy-recipe.md" target="_blank" rel="noopener">投稿我的 DIY ↗</a>
+</div>
+
+<div class="sorts" id="sorts">
+  <button data-sort="default" class="on">默认</button>
+  <button data-sort="price">价格从低到高</button>
+  <button data-sort="kcal">热量从低到高</button>
+  <button data-sort="health">健康之选（轻享）</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<footer>
+  价格经麦当劳 MCP 实时核验（2026-10-10 · 福州样本店）· 随城市门店波动，以实时核价为准<br>
+  本项目为 2026 麦当劳程序员创意开发大赛参赛作品 · 非麦当劳官方产品<br>
+  <a href="https://github.com/Reak-Z/mcd-secret-menu-lab/blob/main/references/recipes.md">全部配方文档</a> ·
+  <a href="https://github.com/Reak-Z/mcd-secret-menu-lab/blob/main/references/nutrition-guide.md">营养与评分规则</a> ·
+  <a href="https://github.com/Reak-Z/mcd-secret-menu-lab/blob/main/DIY_RANKING.md">DIY 排行榜</a>
+</footer>
+
+<div id="modal" onclick="this.classList.remove('on')"><img id="modalImg" alt="配方卡大图"></div>
+
+<script>
+const RECIPES = [
+  {no:"001", name:"薯条蘸麦旋风", price:30.00, kcal:555, tier:"大满足", img:"assets/cards/card_001.png"},
+  {no:"002", name:"派上浇冰",     price:20.50, kcal:514, tier:"大满足", img:"assets/cards/card_002.png"},
+  {no:"003", name:"雪顶可乐",     price:14.50, kcal:240, tier:"轻享",   img:"assets/cards/card_003.png"},
+  {no:"004", name:"芝士瀑布薯条", price:17.50, kcal:289, tier:"适中",   img:"assets/cards/card_004.png"},
+  {no:"005", name:"冰火小圆子派", price:10.00, kcal:325, tier:"适中",   img:"assets/cards/card_005.png"},
+  {no:"006", name:"双酱鸡块",     price:20.00, kcal:213, tier:"轻享",   img:"assets/cards/card_006.png"},
+  {no:"007", name:"早餐王牌",     price:30.50, kcal:533, tier:"大满足", img:"assets/cards/card_007.png"},
+  {no:"008", name:"酸甜脆薯",     price:14.50, kcal:289, tier:"轻享",   img:"assets/cards/card_008.png"},
+  {no:"009", name:"雪顶麦炫酷",   price:17.50, kcal:321, tier:"适中",   img:"assets/cards/card_009.png"},
+  {no:"010", name:"麦旋风双拼",   price:20.50, kcal:498, tier:"适中",   img:"assets/cards/card_010.png"},
+  {no:"011", name:"星星撞薯",     price:31.00, kcal:555, tier:"大满足", img:"assets/cards/card_011.png"},
+  {no:"012", name:"扭扭芝士塔",   price:19.00, kcal:280, tier:"适中",   img:"assets/cards/card_012.png"},
+  {no:"013", name:"红茶雪顶",     price:14.50, kcal:178, tier:"轻享",   img:"assets/cards/card_013.png"},
+  {no:"014", name:"焦香撞冰",     price:28.50, kcal:474, tier:"适中",   img:"assets/cards/card_014.png"}
+];
+const TIER_CLASS = {"轻享":"b-light","适中":"b-mid","大满足":"b-heavy"};
+let list = RECIPES.slice();
+
+function render() {
+  const g = document.getElementById("grid");
+  g.innerHTML = list.map(r => `
+    <div class="card" onclick="openModal('${r.img}')">
+      <img src="${r.img}" alt="${r.name} 配方卡" loading="lazy">
+      <div class="meta">
+        <span class="name">${r.name}<span class="badge ${TIER_CLASS[r.tier]}">${r.tier}</span></span>
+        <span class="price">¥${r.price.toFixed(2)}</span>
+      </div>
+    </div>`).join("");
+}
+function openModal(src) {
+  document.getElementById("modalImg").src = src;
+  document.getElementById("modal").classList.add("on");
+}
+function randomPick() {
+  const r = RECIPES[Math.floor(Math.random() * RECIPES.length)];
+  openModal(r.img);
+}
+document.getElementById("sorts").addEventListener("click", e => {
+  const btn = e.target.closest("button"); if (!btn) return;
+  document.querySelectorAll("#sorts button").forEach(b => b.classList.remove("on"));
+  btn.classList.add("on");
+  const k = btn.dataset.sort;
+  list = RECIPES.slice();
+  if (k === "price") list.sort((a,b) => a.price - b.price);
+  if (k === "kcal") list.sort((a,b) => a.kcal - b.kcal);
+  if (k === "health") list = list.filter(r => r.tier === "轻享").concat(list.filter(r => r.tier !== "轻享"));
+  render();
+});
+render();
+</script>
+</body>
+</html>
