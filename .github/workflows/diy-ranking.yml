@@ -1,0 +1,32 @@
+name: Update DIY Ranking
+
+on:
+  schedule:
+    # 每天 01:17 UTC = 北京时间 09:17
+    - cron: "17 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: read
+
+jobs:
+  update-ranking:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate DIY ranking
+        run: python3 tools/diy_ranking.py --repo "${{ github.repository }}" --token "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add DIY_RANKING.md
+          if git diff --staged --quiet; then
+            echo "无变化，跳过提交"
+          else
+            git commit -m "chore: 自动更新 DIY 吃法排行榜"
+            git push
+          fi
