@@ -11,6 +11,7 @@
 | 2026-10-10 | 方案设计与知识库撰写 | README / SKILL.md / 配方库 / 风味矩阵 v1 |
 | 2026-10-10 | MCP 集成设计（工具链调研与调用流程设计） | MCP_INTEGRATION.md v1 |
 | （持续更新） | 真实 MCP 链路联调、配方实测 | 实测记录 |
+| 2026-10-10 | 真实 MCP 全链路联调（35 工具在线验证）+ 10 配方实时计价 + 158 项营养数据核验 | [examples/live-verification-2026-10-10.md](examples/live-verification-2026-10-10.md) |
 
 ## 对话上下文导出
 
