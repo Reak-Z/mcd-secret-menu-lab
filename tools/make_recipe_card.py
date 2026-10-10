@@ -15,6 +15,8 @@ import sys
 
 from PIL import Image, ImageDraw, ImageFont
 
+from emblem import draw_emblem
+
 # ---------- 品牌色 ----------
 RED = (218, 41, 28)        # 麦当劳红
 YELLOW = (255, 199, 44)    # 麦当劳黄
@@ -118,6 +120,7 @@ def make_card(r, out_path):
     d = ImageDraw.Draw(img)
 
     # ===== 顶部品牌区 =====
+    draw_emblem(img, W - 170, 54, 104)
     d.text((64, 58), "麦门隐藏菜单实验室", font=load_font(44), fill=YELLOW)
     d.text((64, 118), "用官方食材，炼出你的专属吃法", font=load_font(26), fill=CREAM)
 

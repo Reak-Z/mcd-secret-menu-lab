@@ -17,6 +17,8 @@ import sys
 
 from PIL import Image, ImageDraw, ImageFont
 
+from emblem import draw_emblem
+
 RED = (218, 41, 28)
 YELLOW = (255, 199, 44)
 WHITE = (255, 255, 255)
@@ -94,7 +96,8 @@ def make_cover(out_path):
 
     # 底部
     d.text((90, H - 190), "说一句话，AI 帮你发明专属吃法", font=load_font(42), fill=CREAM)
-    d.text((90, H - 120), "◆ 麦门隐藏菜单实验室", font=load_font(48), fill=YELLOW)
+    draw_emblem(img, 84, H - 132, 78)
+    d.text((180, H - 122), "麦门隐藏菜单实验室", font=load_font(48), fill=YELLOW)
 
     img.save(out_path, "PNG")
     return out_path

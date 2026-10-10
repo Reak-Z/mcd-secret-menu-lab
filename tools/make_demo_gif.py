@@ -15,6 +15,8 @@ import sys
 
 from PIL import Image, ImageDraw, ImageFont
 
+from emblem import draw_emblem
+
 RED = (218, 41, 28)
 YELLOW = (255, 199, 44)
 DARK = (45, 45, 45)
@@ -73,7 +75,8 @@ def render_frame(n, font_title, font_msg):
 
     # 标题栏
     d.rectangle((0, 0, W, 66), fill=RED)
-    d.text((26, 16), "麦门隐藏菜单实验室 · 在线演示", font=font_title, fill=WHITE)
+    draw_emblem(img, 18, 16, 40)
+    d.text((72, 16), "麦门隐藏菜单实验室 · 在线演示", font=font_title, fill=WHITE)
 
     y = 100
     for role, text in FLOW[:n]:
