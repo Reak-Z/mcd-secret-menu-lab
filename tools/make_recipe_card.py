@@ -171,22 +171,22 @@ def make_card(r, out_path):
 
     # ===== 配料 =====
     d.text((x, y), "配料清单", font=load_font(34), fill=RED)
-    y += 58
+    y += 54
     for name, price in r["items"]:
         d.text((x, y), "· " + name, font=load_font(36), fill=DARK)
         pw = d.textlength(price, font=load_font(36))
         d.text((W - 110 - pw, y), price, font=load_font(36), fill=GRAY)
-        y += 56
+        y += 52
     y += 18
     d.line((x, y, W - 110, y), fill=LIGHT, width=2)
     y += 36
 
     # ===== 组装 =====
     d.text((x, y), "组装步骤", font=load_font(34), fill=RED)
-    y += 58
+    y += 54
     for i, s in enumerate(r["steps"], 1):
         d.text((x, y), f"{i}. {s}", font=load_font(36), fill=DARK)
-        y += 56
+        y += 52
     y += 18
     d.line((x, y, W - 110, y), fill=LIGHT, width=2)
     y += 36
@@ -194,16 +194,17 @@ def make_card(r, out_path):
     # ===== 风味 / 热量 / 四维评分 =====
     sc = SCORES.get(r["no"], ("★☆☆", "★☆☆", "★☆☆", "★☆☆", "适中"))
     d.text((x, y), "风味  " + r["flavor"], font=load_font(34), fill=DARK)
-    y += 50
+    y += 46
     d.text((x, y), "热量  " + r["kcal"] + " · " + sc[4], font=load_font(34), fill=DARK)
-    y += 50
+    y += 46
     d.text((x, y), "四维  省钱%s 健康%s 好吃%s 创意%s" % (sc[0], sc[1], sc[2], sc[3]),
            font=load_font(26), fill=RED)
-    y += 70
+    y += 60
 
-    # 底部注脚
-    d.text((x, H - 130), "价格经麦当劳 MCP 实时核验 · 2026-10-10 · 福州", font=load_font(24), fill=GRAY)
-    d.text((x, H - 95), "仅供创意参考 · 非麦当劳官方产品", font=load_font(24), fill=GRAY)
+    # 底部注脚（含仓库地址：卡片被转发后也能找到来源）
+    d.text((x, H - 162), "价格经麦当劳 MCP 实时核验 · 2026-10-10", font=load_font(24), fill=GRAY)
+    d.text((x, H - 132), "github.com/Reak-Z/mcd-secret-menu-lab", font=load_font(26), fill=RED)
+    d.text((x, H - 102), "仅供创意参考 · 非麦当劳官方产品", font=load_font(24), fill=GRAY)
 
     img.save(out_path, "PNG")
     return out_path

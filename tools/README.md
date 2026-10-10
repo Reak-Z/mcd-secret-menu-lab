@@ -1,0 +1,18 @@
+# 🛠 tools/ 脚本说明
+
+本目录包含项目的全部可运行脚本。依赖：`pip install -r requirements.txt`（仅 Pillow）。
+
+| 脚本 | 用途 | 用法 |
+|---|---|---|
+| `install.py` | 一键安装 Skill 到本机（自动探测 WorkBuddy / Claude Code 技能目录） | `python tools/install.py` |
+| `diy_ranking.py` | 扫描「DIY配方」标签的 Issue，按反应数生成 `DIY_RANKING.md`（由 GitHub Actions 每日自动调用） | `python tools/diy_ranking.py --token <GITHUB_TOKEN>` |
+| `emblem.py` | 绘制项目原创标识（烧瓶+薯条），导出 `assets/emblem.png` | `python tools/emblem.py` |
+| `make_recipe_card.py` | 批量生成 14 张配方卡（1080×1350，含四维评分） | `python tools/make_recipe_card.py` |
+| `make_demo_gif.py` | 生成对话演示动画 `assets/demo.gif` | `python tools/make_demo_gif.py` |
+| `make_social_poster.py` | 生成社交物料（封面海报 + 配方合集图） | `python tools/make_social_poster.py` |
+
+## 说明
+
+- 字体依赖：脚本会自动探测系统 CJK 字体（Windows 微软雅黑 / macOS PingFang / Linux Noto），无需手动配置
+- 所有图片产物输出到 `assets/` 对应子目录
+- 生成的 `assets/demo_preview.png` 为检查用中间产物，已被 .gitignore 忽略

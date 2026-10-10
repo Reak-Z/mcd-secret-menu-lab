@@ -16,7 +16,7 @@
 | 15:20 | 项目骨架：README / SKILL.md / 配方库 v1 / 风味矩阵 / MCP_INTEGRATION / 脱敏配置 | 文件读写 + 内容创作 | 仓库 v0.1 上线 |
 | 15:30 | 官方报名：按标准格式提交参赛 Issue 并实时跟踪 | Git API 操作 | Issue #272 报名成功 |
 | 15:35 | MCP 真实链路联调：门店查询 → 菜单（130 项）→ 食材详情 → 实时计价 → 营养（158 项） | MCP 工具调用（自建客户端） | 全链路打通 |
-| 15:40 | 实测核验：10 个配方逐一真实计价 | MCP 批量调用 + 数据处理 | [examples/live-verification-2026-10-10.md](examples/live-verification-2026-10-10.md) |
+| 15:40 | 实测核验：配方逐一真实计价（首轮 10 个，后扩容至 14 个） | MCP 批量调用 + 数据处理 | [examples/live-verification-2026-10-10.md](examples/live-verification-2026-10-10.md) |
 | 15:45 | 配方卡图片生成器开发 | Python/PIL 脚本编写 | tools/make_recipe_card.py + 10 张卡 |
 | 15:52 | 对话演示 GIF 生成器（含字型排障） | 脚本开发 + 视觉调试 | tools/make_demo_gif.py |
 | 15:55 | 配方库扩容至 14 个（4 个原创配方全部实测） | MCP 核价 + 知识库更新 | recipes.md v2.1 |
