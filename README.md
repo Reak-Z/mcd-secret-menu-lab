@@ -108,7 +108,13 @@
 
 ### 3. 安装本 Skill
 
-把 `SKILL.md` 与 `references/` 目录复制到你的技能目录：
+**一键安装**（自动探测 WorkBuddy / Claude Code 技能目录）：
+
+```bash
+python tools/install.py
+```
+
+或手动复制 `SKILL.md` 与 `references/` 到你的技能目录：
 
 - **WorkBuddy**：`~/.workbuddy/skills/mcd-secret-menu-lab/`
 - **Claude Code / 其他 Agent**：放入对应 skills 目录即可（SKILL.md 为通用格式）
@@ -141,6 +147,7 @@
 │   ├── recipes.md              # 配方库 v2（实测版：真实价格 + 营养）
 │   └── flavor-matrix.md        # 风味兼容性矩阵（配方引擎的知识内核）
 ├── tools/
+│   ├── install.py              # 一键安装脚本（WorkBuddy / Claude Code）
 │   ├── emblem.py               # 原创项目标识（烧瓶薯条图形，非官方 Logo）
 │   ├── make_recipe_card.py     # 配方卡图片生成器（1080×1350 可分享版式）
 │   ├── make_demo_gif.py        # 对话演示 GIF 生成器
