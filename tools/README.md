@@ -14,6 +14,7 @@
 | `make_social_poster.py` | 生成社交物料（封面海报 + 配方合集图，自动排除彩蛋卡） | `python tools/make_social_poster.py` |
 | `make_icons.py` | 生成 PWA 图标（192/512，源自项目标识） | `python tools/make_icons.py` |
 | `test_gallery.js` | 画廊页运行时测试：Node 桩化 DOM，验证图鉴全流程（17 项断言，需 Node） | `node tools/test_gallery.js` |
+| `api_push.py` | **应急推送**：通过 GitHub API 通道提交文件（当 git 推送因网络抖动反复失败时备用） | `GITHUB_TOKEN=xxx python tools/api_push.py "提交信息" 文件1 文件2` |
 
 ## 说明
 
