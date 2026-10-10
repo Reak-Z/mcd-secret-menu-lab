@@ -17,6 +17,13 @@ from PIL import Image, ImageDraw, ImageFont
 
 from emblem import draw_emblem
 
+try:
+    import qrcode
+except ImportError:  # qrcode 未安装时自动跳过二维码
+    qrcode = None
+
+GALLERY_URL = "https://reak-z.github.io/mcd-secret-menu-lab/"
+
 # ---------- 品牌色 ----------
 RED = (218, 41, 28)        # 麦当劳红
 YELLOW = (255, 199, 44)    # 麦当劳黄
@@ -205,6 +212,12 @@ def make_card(r, out_path):
     d.text((x, H - 162), "价格经麦当劳 MCP 实时核验 · 2026-10-10", font=load_font(24), fill=GRAY)
     d.text((x, H - 132), "github.com/Reak-Z/mcd-secret-menu-lab", font=load_font(26), fill=RED)
     d.text((x, H - 102), "仅供创意参考 · 非麦当劳官方产品", font=load_font(24), fill=GRAY)
+
+    # 二维码（右下角，扫码直达在线配方画廊）
+    if qrcode is not None:
+        d.text((W - 250, H - 282), "扫码看全部配方", font=load_font(20), fill=GRAY)
+        qr = qrcode.make(GALLERY_URL).convert("RGB").resize((140, 140))
+        img.paste(qr, (W - 250, H - 252))
 
     img.save(out_path, "PNG")
     return out_path

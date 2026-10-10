@@ -1,9 +1,10 @@
 # 🛠 tools/ 脚本说明
 
-本目录包含项目的全部可运行脚本。依赖：`pip install -r requirements.txt`（仅 Pillow）。
+本目录包含项目的全部可运行脚本。依赖：`pip install -r requirements.txt`（Pillow + qrcode；`mcd_verify.py` 与 `diy_ranking.py` 仅用标准库，无需安装任何依赖）。
 
 | 脚本 | 用途 | 用法 |
 |---|---|---|
+| `mcd_verify.py` | **独立核验脚本**：命令行直接核验配方（实时价格 + 官方营养 + 健康分级 + 四维预评分），**无需 WorkBuddy** | `python tools/mcd_verify.py verify 4810 9900008754 --store 1410005` |
 | `install.py` | 一键安装 Skill 到本机（自动探测 WorkBuddy / Claude Code 技能目录） | `python tools/install.py` |
 | `diy_ranking.py` | 扫描「DIY配方」标签的 Issue，按反应数生成 `DIY_RANKING.md`（由 GitHub Actions 每日自动调用） | `python tools/diy_ranking.py --token <GITHUB_TOKEN>` |
 | `emblem.py` | 绘制项目原创标识（烧瓶+薯条），导出 `assets/emblem.png` | `python tools/emblem.py` |

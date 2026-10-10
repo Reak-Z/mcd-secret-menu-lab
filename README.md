@@ -13,7 +13,7 @@
 
 **2026 麦当劳程序员创意开发大赛参赛作品** · 基于 [麦当劳中国官方 MCP](https://github.com/M-China/mcd-mcp-server) 开发 · 使用 [WorkBuddy](https://www.workbuddy.cn/) 构建
 
-> 🍟 **只想看配方？** → [14 个实测配方一览](references/recipes.md) ｜ 📸 [配方卡画廊](assets/cards/) ｜ 🎬 见下方[在线演示](#-在线演示) ｜ 🧪 [投稿你的 DIY](DIY_RANKING.md)
+> 🍟 **只想看配方？** → 🌐 [在线配方画廊](https://reak-z.github.io/mcd-secret-menu-lab/)（手机友好）｜ [14 个实测配方文档](references/recipes.md) ｜ 🎬 见下方[在线演示](#-在线演示) ｜ 🧪 [投稿你的 DIY](DIY_RANKING.md)
 
 ---
 
@@ -66,7 +66,9 @@
 ╰────────────────────────────────╯
 ```
 
-还能一键生成**图片版配方卡**（1080×1350，可直接发社交媒体）：
+还能一键生成**图片版配方卡**（1080×1350，可直接发社交媒体；右下角二维码扫码直达在线画廊）：
+
+🌐 **在线配方画廊（手机友好）**：https://reak-z.github.io/mcd-secret-menu-lab/
 
 <p>
 <img src="assets/cards/card_001.png" width="46%">
