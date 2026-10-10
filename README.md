@@ -176,6 +176,7 @@
 
 - 赛事：[2026 麦当劳程序员创意开发大赛](https://github.com/M-China/mcd-developer-innovation-challenge)
 - 开发工具：[WorkBuddy](https://www.workbuddy.cn/)
+- 参赛状态：✅ **已通过官方核验，成功参赛**（[Issue #272](https://github.com/M-China/mcd-developer-innovation-challenge/issues/272)，2026-10-10 官方确认）
 
 ---
 
