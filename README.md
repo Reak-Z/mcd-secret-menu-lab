@@ -15,6 +15,8 @@
 **基于 [麦当劳中国官方 MCP](https://github.com/M-China/mcd-mcp-server) 开发 · 使用 [WorkBuddy](https://www.workbuddy.cn/) 构建**
 
 > 🍟 **只想看配方？** → 🌐 [在线配方画廊](https://reak-z.github.io/mcd-secret-menu-lab/)（手机友好）｜ 🎯 [测测隐藏吃法人格](https://reak-z.github.io/mcd-secret-menu-lab/quiz/) ｜ [14 个实测配方文档](references/recipes.md) ｜ 🎬 见下方[在线演示](#-在线演示) ｜ 🧪 [投稿你的 DIY](DIY_RANKING.md)
+>
+> 📝 **开发者**：想接入麦当劳 MCP？看我们的实战复盘 → [《MCP 集成实战 + 8 个踩坑记录》](docs/mcp-in-action.md)（附 80 行迷你客户端代码）
 
 <!-- DAILY-RECIPE:START -->
 🍟 **今日隐藏吃法（10-10）**：#003 雪顶可乐 ¥14.50（约 240 kcal · 轻享）—— 点中杯可乐 + 一个圆筒冰淇淋，喝两口后把圆筒倒扣进去
@@ -189,6 +191,8 @@ python tools/install.py
 │   └── demo.gif                # 对话演示动画
 ├── examples/
 │   └── live-verification-2026-10-10.md  # 真实链路核验记录
+├── docs/
+│   └── mcp-in-action.md        # MCP 集成实战指南（8 个踩坑记录 + 迷你客户端）
 ├── MCP_INTEGRATION.md          # MCP 工具调用流程、业务价值与踩坑记录
 ├── mcp-config.example.json     # 脱敏后的 MCP 配置示例（仅环境变量占位符）
 ├── workbuddy.md                # WorkBuddy 开发对话上下文（联动活动核验用）

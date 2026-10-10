@@ -2,6 +2,7 @@
 
 > 本文件说明「麦门隐藏菜单实验室」实际使用的麦当劳 MCP Server、Tool、调用流程与业务价值。
 > 状态：v2 已实测（2026-10-10 完成 14 个配方全链路核验：菜单拉取 → 食材详情 → 实时计价 → 营养；实测记录见 [examples/live-verification-2026-10-10.md](examples/live-verification-2026-10-10.md)）
+> 📝 本文为项目内部技术文档；面向外部开发者的实战教程（含迷你客户端代码与 8 个踩坑记录）见 [docs/mcp-in-action.md](docs/mcp-in-action.md)
 
 ---
 
