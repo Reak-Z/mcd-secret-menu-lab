@@ -1,0 +1,14 @@
+{
+  "name": "麦门隐藏菜单实验室",
+  "short_name": "隐藏菜单实验室",
+  "description": "14 个实测麦当劳隐藏吃法 · 省钱 × 健康 × 好吃 × 创意",
+  "start_url": "/mcd-secret-menu-lab/",
+  "scope": "/mcd-secret-menu-lab/",
+  "display": "standalone",
+  "background_color": "#faf8f5",
+  "theme_color": "#DA291C",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

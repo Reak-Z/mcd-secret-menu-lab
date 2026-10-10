@@ -130,7 +130,14 @@ SCORES = {
     "#012": ("★★☆", "★★☆", "★★★", "★★★", "适中"),
     "#013": ("★★★", "★★★", "★★★", "★★★", "轻享"),
     "#014": ("★☆☆", "★★☆", "★★★", "★★★", "适中"),
+    "#015": ("★★☆", "★★★", "★★★", "★★★", "轻享"),
 }
+
+# 隐藏彩蛋配方（集齐 14 张图鉴后解锁，不在公开 14 个配方列表内展示）
+SECRET = {"no": "#015", "name": "浓缩可乐（隐藏彩蛋）", "price": "¥24.50", "diff": "★★☆",
+     "items": [("浓缩咖啡", "¥15.0"), ("可乐", "¥9.5")],
+     "steps": ["可乐先喝掉两口", "倒入浓缩咖啡，轻轻搅拌", "得到一杯自制气泡咖啡"],
+     "flavor": "气泡 × 咖啡 · 意式新喝法", "kcal": "约 160 kcal"}
 
 
 def _rounded(d, box, radius, fill):
@@ -231,7 +238,11 @@ def main():
         p = os.path.join(out_dir, "card_%s.png" % r["no"].lstrip("#"))
         make_card(r, p)
         print("生成:", p)
-    print("完成，共 %d 张" % len(RECIPES))
+    # 隐藏彩蛋卡（图鉴集齐解锁）
+    p = os.path.join(out_dir, "card_%s.png" % SECRET["no"].lstrip("#"))
+    make_card(SECRET, p)
+    print("生成(彩蛋):", p)
+    print("完成，共 %d 张 + 1 张彩蛋" % len(RECIPES))
 
 
 if __name__ == "__main__":

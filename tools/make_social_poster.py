@@ -104,7 +104,8 @@ def make_cover(out_path):
 
 
 def make_cards_grid(cards_dir, out_path):
-    files = sorted(f for f in os.listdir(cards_dir) if f.startswith("card_") and f.endswith(".png"))
+    files = sorted(f for f in os.listdir(cards_dir)
+                   if f.startswith("card_") and f.endswith(".png") and "015" not in f)  # 排除隐藏彩蛋卡
     gap = 22
     cols = 4
     thumb_w = (W - gap * (cols + 1)) // cols

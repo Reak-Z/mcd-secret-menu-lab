@@ -10,6 +10,12 @@
 <meta property="og:image" content="https://reak-z.github.io/mcd-secret-menu-lab/assets/social/cover.png">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#DA291C">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"麦门隐藏菜单实验室","alternateName":"McD Secret Menu Lab","url":"https://reak-z.github.io/mcd-secret-menu-lab/","description":"14 个实测麦当劳隐藏吃法，省钱×健康×好吃×创意，全部真实核价"}
+</script>
 <style>
   :root { --red:#DA291C; --yellow:#FFC72C; --dark:#2d2d2d; --gray:#8a8a8a; }
   * { box-sizing:border-box; margin:0; padding:0; }
@@ -66,6 +72,25 @@
   .today .t-btns .py { background:var(--yellow); color:var(--dark); }
   .today .t-btns .gh { background:#f4f0ea; color:var(--dark); }
   @media (max-width:560px){ .today-inner{ flex-wrap:wrap; } .today img{ width:96px; } }
+  .collect { max-width:1100px; margin:12px auto 0; padding:0 16px; }
+  .c-inner { background:#fff; border-radius:14px; padding:12px 16px; display:flex;
+    align-items:center; gap:12px; flex-wrap:wrap; box-shadow:0 1px 8px rgba(0,0,0,.06); font-size:14px; }
+  .c-inner b { color:var(--red); font-size:17px; }
+  .c-bar { flex:1; min-width:120px; height:10px; background:#f1ece6; border-radius:99px; overflow:hidden; }
+  .c-bar i { display:block; height:100%; width:0; background:var(--yellow); border-radius:99px; transition:.4s; }
+  .c-hint { color:var(--gray); font-size:12px; }
+  .unlock { max-width:1100px; margin:12px auto 0; padding:0 16px; }
+  .unlock-inner { background:#fffdf5; border:2px dashed var(--yellow); border-radius:16px; padding:16px; }
+  .u-tag { display:inline-block; background:var(--red); color:#fff; font-size:12px; font-weight:700;
+    border-radius:99px; padding:4px 12px; margin-bottom:10px; }
+  .btn-mini { border:0; border-radius:99px; padding:9px 16px; background:var(--red); color:#fff;
+    font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; }
+  .card { position:relative; }
+  .col-tick { position:absolute; top:10px; right:10px; background:#2e7d32; color:#fff; width:26px; height:26px;
+    border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; }
+  .save-hint { color:#ddd; font-size:12px; }
+  .modal-actions .pk { background:#e8f5e9; color:#2e7d32; }
+  .modal-actions .pk.done { background:#2e7d32; color:#fff; }
   footer { text-align:center; padding:26px 16px 40px; color:var(--gray); font-size:13px; line-height:2; }
   footer a { color:var(--red); text-decoration:none; }
   .footer-cta { display:inline-block; margin:6px 0 4px; background:#fff; color:var(--red);
@@ -103,6 +128,28 @@
 
 <section class="today" id="today"></section>
 
+<section class="collect">
+  <div class="c-inner">
+    <span>🧭 我的图鉴 <b id="colCount">0</b>/14</span>
+    <span class="c-bar"><i id="colBar"></i></span>
+    <span class="c-hint" id="colHint">点开卡片标记「已尝」，集齐 14 个解锁隐藏彩蛋</span>
+  </div>
+</section>
+
+<section class="unlock" id="unlockBox" style="display:none">
+  <div class="unlock-inner">
+    <div class="u-tag">🎉 图鉴集齐 · 隐藏彩蛋解锁</div>
+    <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <img src="assets/cards/card_015.png" alt="浓缩可乐 彩蛋配方卡" style="width:110px;border-radius:10px">
+      <div>
+        <div style="font-weight:700">#015 浓缩可乐（隐藏彩蛋）</div>
+        <div style="font-size:13px;color:#666;margin-top:4px">浓缩咖啡 + 可乐 = 自制气泡咖啡 · ¥24.50 · 约 160 kcal</div>
+        <div style="margin-top:8px"><button class="btn-mini" onclick="inviteFriend()">📨 邀请朋友一起来收集</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="bar">
   <button class="primary" onclick="randomPick()">🎲 随机来一个</button>
   <a class="gold" href="quiz/">🎯 测测隐藏吃法人格</a>
@@ -132,9 +179,11 @@
 <div id="modal" onclick="closeModal(event)">
   <div class="modal-box" onclick="event.stopPropagation()">
     <img id="modalImg" alt="配方卡大图">
+    <div class="save-hint">📱 长按图片即可保存 / 分享</div>
     <div class="modal-info">
       <div class="order-line" id="modalOrder"></div>
       <div class="modal-actions">
+        <button class="pk" id="colBtn" onclick="toggleCollected()">☑ 标记为已尝</button>
         <button class="py" onclick="copyRecipe()">📋 复制这个配方的分享文案</button>
         <a class="rd" href="https://github.com/Reak-Z/mcd-secret-menu-lab" target="_blank" rel="noopener">⭐ Star 支持参赛</a>
       </div>
@@ -178,12 +227,14 @@ const TIER_CLASS = {"轻享":"b-light","适中":"b-mid","大满足":"b-heavy"};
 const SITE = "https://reak-z.github.io/mcd-secret-menu-lab/";
 let list = RECIPES.slice();
 let current = null;
+let currentIdx = null;
 
 function render() {
   const g = document.getElementById("grid");
   g.innerHTML = list.map((r, i) => `
     <div class="card" onclick="openModal(${RECIPES.indexOf(r)})">
       <img src="${r.img}" alt="${r.name} 配方卡" loading="lazy">
+      ${isCollected(r.no) ? '<span class="col-tick">✓</span>' : ''}
       <div class="meta">
         <span class="name">${r.name}<span class="badge ${TIER_CLASS[r.tier]}">${r.tier}</span></span>
         <span class="price">¥${r.price.toFixed(2)}</span>
@@ -192,9 +243,11 @@ function render() {
 }
 function openModal(i) {
   current = RECIPES[i];
+  currentIdx = i;
   document.getElementById("modalImg").src = current.img;
   document.getElementById("modalOrder").innerHTML =
     `<b>🍟 点单话术：</b>${current.order}`;
+  updateColBtn();
   document.getElementById("modal").classList.add("on");
 }
 function closeModal(e) {
@@ -276,6 +329,45 @@ function promoToday() {
   const r = RECIPES[todayIndex()];
   copyText(`【今日隐藏吃法】${r.name}｜实测 ¥${r.price.toFixed(2)}（${r.kcal} kcal）\n点单话术：${r.order}\n每天解锁一个隐藏吃法 → ${SITE}`, "今日文案已复制 ✓");
 }
+// ===== 图鉴收集（localStorage 本地持久化）=====
+const COL_KEY = "mcdLab.collected";
+function getCol() { try { return JSON.parse(localStorage.getItem(COL_KEY)) || []; } catch (e) { return []; } }
+function setCol(a) { try { localStorage.setItem(COL_KEY, JSON.stringify(a)); } catch (e) {} }
+function isCollected(no) { return getCol().indexOf(no) >= 0; }
+function toggleCollected() {
+  if (currentIdx === null) return;
+  const no = RECIPES[currentIdx].no;
+  let a = getCol();
+  if (a.indexOf(no) >= 0) { a = a.filter(x => x !== no); toast("已取消标记"); }
+  else { a.push(no); toast("已标记为尝过 ✓"); }
+  setCol(a); updateColUI(); updateColBtn(); render();
+}
+function updateColUI() {
+  const n = getCol().length;
+  document.getElementById("colCount").textContent = n;
+  document.getElementById("colBar").style.width = (n / RECIPES.length * 100) + "%";
+  const un = document.getElementById("unlockBox");
+  if (n >= RECIPES.length) {
+    document.getElementById("colHint").textContent = "🎉 图鉴已集齐！";
+    un.style.display = "block";
+  } else {
+    document.getElementById("colHint").textContent =
+      "点开卡片标记「已尝」，集齐 " + RECIPES.length + " 个解锁隐藏彩蛋";
+    un.style.display = "none";
+  }
+}
+function updateColBtn() {
+  if (currentIdx === null) return;
+  const btn = document.getElementById("colBtn");
+  const done = isCollected(RECIPES[currentIdx].no);
+  btn.textContent = done ? "✅ 已尝过（点击取消）" : "☑ 标记为已尝";
+  btn.className = done ? "pk done" : "pk";
+}
+function inviteFriend() {
+  const n = getCol().length;
+  copyText(`我在收集「麦门隐藏吃法图鉴」，已尝 ${n}/${RECIPES.length} 个！14 个实测隐藏吃法一起收集 → ${SITE}`, "邀请文案已复制 ✓");
+}
+updateColUI();
 render();
 renderToday();
 </script>
