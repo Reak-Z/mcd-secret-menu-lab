@@ -1,0 +1,31 @@
+name: Daily Recipe
+
+on:
+  schedule:
+    # 每天 01:05 UTC = 北京时间 09:05（错开 09:17 的排行榜任务）
+    - cron: "5 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-daily:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update today's recipe in README
+        run: python3 tools/daily_recipe.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          if git diff --staged --quiet; then
+            echo "无变化，跳过提交"
+          else
+            git commit -m "chore: 更新今日隐藏吃法"
+            git push || (git pull --rebase origin main && git push)
+          fi

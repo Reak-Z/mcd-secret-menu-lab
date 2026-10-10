@@ -50,6 +50,22 @@
   .b-light { background:#e8f5e9; color:#2e7d32; }
   .b-mid   { background:#fff8e1; color:#b26a00; }
   .b-heavy { background:#fdecea; color:#c62828; }
+  .today { max-width:1100px; margin:18px auto 0; padding:0 16px; }
+  .today-inner { background:#fff; border-radius:18px; box-shadow:0 2px 14px rgba(0,0,0,.08);
+    display:flex; gap:18px; padding:16px; align-items:center; border:2px solid var(--yellow); }
+  .today img { width:120px; border-radius:12px; display:block; flex:0 0 auto; }
+  .today .t-info { flex:1; min-width:0; }
+  .today .t-tag { display:inline-block; background:var(--red); color:#fff; font-size:11px;
+    border-radius:99px; padding:3px 10px; font-weight:700; }
+  .today h2 { font-size:18px; margin:8px 0 4px; }
+  .today .t-price { color:var(--red); font-weight:700; font-size:15px; }
+  .today .t-order { font-size:13px; color:#666; line-height:1.6; margin-top:6px; }
+  .today .t-btns { display:flex; flex-direction:column; gap:8px; flex:0 0 auto; }
+  .today .t-btns button { border:0; border-radius:99px; padding:9px 16px; cursor:pointer;
+    font-family:inherit; font-size:13px; font-weight:600; white-space:nowrap; }
+  .today .t-btns .py { background:var(--yellow); color:var(--dark); }
+  .today .t-btns .gh { background:#f4f0ea; color:var(--dark); }
+  @media (max-width:560px){ .today-inner{ flex-wrap:wrap; } .today img{ width:96px; } }
   footer { text-align:center; padding:26px 16px 40px; color:var(--gray); font-size:13px; line-height:2; }
   footer a { color:var(--red); text-decoration:none; }
   .footer-cta { display:inline-block; margin:6px 0 4px; background:#fff; color:var(--red);
@@ -84,6 +100,8 @@
     <span>2026 麦当劳程序员创意开发大赛</span>
   </a>
 </header>
+
+<section class="today" id="today"></section>
 
 <div class="bar">
   <button class="primary" onclick="randomPick()">🎲 随机来一个</button>
@@ -228,7 +246,38 @@ document.getElementById("sorts").addEventListener("click", e => {
   if (k === "health") list = list.filter(r => r.tier === "轻享").concat(list.filter(r => r.tier !== "轻享"));
   render();
 });
+
+// ===== 今日隐藏吃法（按日期确定性轮换，与 tools/daily_recipe.py 算法一致）=====
+function todayIndex() {
+  const now = new Date();
+  const days = Math.floor(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86400000);
+  return ((days % RECIPES.length) + RECIPES.length) % RECIPES.length;
+}
+function renderToday() {
+  const now = new Date();
+  const i = todayIndex();
+  const r = RECIPES[i];
+  document.getElementById("today").innerHTML = `
+    <div class="today-inner">
+      <img src="${r.img}" alt="${r.name}">
+      <div class="t-info">
+        <span class="t-tag">🍟 今日隐藏吃法 · ${now.getMonth() + 1} 月 ${now.getDate()} 日</span>
+        <h2>${r.name}</h2>
+        <div class="t-price">¥${r.price.toFixed(2)}<span class="badge ${TIER_CLASS[r.tier]}">${r.tier}</span> · ${r.kcal} kcal</div>
+        <div class="t-order">点单话术：${r.order}</div>
+      </div>
+      <div class="t-btns">
+        <button class="py" onclick="openModal(${i})">看大图</button>
+        <button class="gh" onclick="promoToday()">复制文案</button>
+      </div>
+    </div>`;
+}
+function promoToday() {
+  const r = RECIPES[todayIndex()];
+  copyText(`【今日隐藏吃法】${r.name}｜实测 ¥${r.price.toFixed(2)}（${r.kcal} kcal）\n点单话术：${r.order}\n每天解锁一个隐藏吃法 → ${SITE}`, "今日文案已复制 ✓");
+}
 render();
+renderToday();
 </script>
 </body>
 </html>

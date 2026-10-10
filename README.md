@@ -16,6 +16,10 @@
 
 > 🍟 **只想看配方？** → 🌐 [在线配方画廊](https://reak-z.github.io/mcd-secret-menu-lab/)（手机友好）｜ 🎯 [测测隐藏吃法人格](https://reak-z.github.io/mcd-secret-menu-lab/quiz/) ｜ [14 个实测配方文档](references/recipes.md) ｜ 🎬 见下方[在线演示](#-在线演示) ｜ 🧪 [投稿你的 DIY](DIY_RANKING.md)
 
+<!-- DAILY-RECIPE:START -->
+🍟 **今日隐藏吃法（10-10）**：#003 雪顶可乐 ¥14.50（约 240 kcal · 轻享）—— 点中杯可乐 + 一个圆筒冰淇淋，喝两口后把圆筒倒扣进去
+<!-- DAILY-RECIPE:END -->
+
 ---
 
 ## 🍟 这是什么？

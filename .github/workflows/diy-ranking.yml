@@ -28,5 +28,5 @@ jobs:
             echo "无变化，跳过提交"
           else
             git commit -m "chore: 自动更新 DIY 吃法排行榜"
-            git push
+            git push || (git pull --rebase origin main && git push)
           fi
