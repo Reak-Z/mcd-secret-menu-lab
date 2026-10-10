@@ -154,3 +154,4 @@ description: 麦门隐藏菜单实验室 —— 还原全网网红隐藏吃法�
 5. `list-nutrition-foods` 返回**文本表格**（`名称,null,kJ,kcal,蛋白,脂肪,碳水,钠,钙`），需逐行解析而非 JSON
 6. `query-nearby-stores` 的 `keyword` 不能为空串（报 600058）
 7. 菜单随季节/城市变化：每次输出配方前必须重新核验在售状态与价格，禁止使用记忆中的旧价格
+8. 券后计价：`items` 中附带 `couponId` + `couponCode`（从 `query-store-coupons` 获取），返回的 `price` 即为券后价、`discount` 为优惠额；买一送一等特殊券种以门店列表实际返回为准（实测：¥19.00 → 券后 ¥9.90 验证通过）
