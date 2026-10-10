@@ -19,11 +19,19 @@ from PIL import Image, ImageDraw, ImageFont
 
 from emblem import draw_emblem
 
+try:
+    import qrcode
+except ImportError:  # qrcode 未安装时自动跳过二维码
+    qrcode = None
+
+QUIZ_URL = "https://reak-z.github.io/mcd-secret-menu-lab/quiz/"
+
 RED = (218, 41, 28)
 YELLOW = (255, 199, 44)
 WHITE = (255, 255, 255)
 CREAM = (255, 248, 235)
 DARK = (45, 45, 45)
+GRAY = (130, 130, 130)
 
 W, H = 1080, 1440
 
@@ -103,6 +111,50 @@ def make_cover(out_path):
     return out_path
 
 
+def make_quiz_cover(out_path):
+    """人格测试主视觉（小红书封面用）：6 型人格 + 扫码即玩"""
+    img = Image.new("RGB", (W, H), RED)
+    d = ImageDraw.Draw(img)
+
+    tag = "6 道题 · 30 秒 · 零门槛"
+    f_tag = load_font(30)
+    tw = d.textlength(tag, font=f_tag)
+    _rounded(d, ((W - tw) / 2 - 30, 64, (W + tw) / 2 + 30, 64 + 64), 32, YELLOW)
+    d.text(((W - tw) / 2, 74), tag, font=f_tag, fill=RED)
+
+    d.text((90, 178), "麦当劳隐藏吃法", font=load_font(92), fill=WHITE)
+    d.text((90, 292), "人格测试", font=load_font(92), fill=WHITE)
+    d.text((92, 428), "测出你是哪种隐藏吃法玩家", font=load_font(44), fill=YELLOW)
+
+    _rounded(d, (70, 530, W - 70, 1140), 40, WHITE)
+    x, y = 130, 592
+    d.text((x, y), "6 种人格，你是哪一种？", font=load_font(36), fill=RED)
+    y += 70
+    rows = [
+        ("甜系炼金师", "万物皆可蘸冰淇淋"),
+        ("咸香掌门", "芝士就是力量"),
+        ("冰火玩家", "一半冰一半热才叫爽"),
+        ("轻享派", "好吃也要无负担"),
+        ("复古考古家", "经典流传二十年"),
+        ("省钱战术家", "十块钱吃到仪式感"),
+    ]
+    for name, tagline in rows:
+        d.text((x, y), "◆ " + name, font=load_font(38), fill=DARK)
+        tw2 = d.textlength(tagline, font=load_font(28))
+        d.text((W - 130 - tw2, y + 6), tagline, font=load_font(28), fill=GRAY)
+        y += 66
+
+    if qrcode is not None:
+        qr = qrcode.make(QUIZ_URL).convert("RGB").resize((170, 170))
+        img.paste(qr, (90, H - 246))
+    d.text((292, H - 238), "扫码开始测试", font=load_font(46), fill=WHITE)
+    d.text((294, H - 176), "测完匹配你的专属配方卡", font=load_font(28), fill=CREAM)
+    draw_emblem(img, W - 240, H - 216, 108)
+
+    img.save(out_path, "PNG")
+    return out_path
+
+
 def make_cards_grid(cards_dir, out_path):
     files = sorted(f for f in os.listdir(cards_dir)
                    if f.startswith("card_") and f.endswith(".png") and "015" not in f)  # 排除隐藏彩蛋卡
@@ -137,6 +189,8 @@ def main():
 
     p1 = make_cover(os.path.join(out_dir, "cover.png"))
     print("生成:", p1)
+    p1b = make_quiz_cover(os.path.join(out_dir, "cover_quiz.png"))
+    print("生成:", p1b)
     p2 = make_cards_grid(os.path.join(base, "assets", "cards"), os.path.join(out_dir, "all_cards.png"))
     print("生成:", p2)
 
