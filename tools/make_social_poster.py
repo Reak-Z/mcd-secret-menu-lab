@@ -111,7 +111,53 @@ def make_cover(out_path):
     return out_path
 
 
-def make_quiz_cover(out_path):
+def _center_text(d, y, text, font, fill):
+    w = d.textlength(text, font=font)
+    d.text(((W - w) / 2, y), text, font=font, fill=fill)
+
+
+def make_quiz_cover_social(out_path):
+    """人格测试反差型封面（社媒直发版·零外链）：大问号 + 6 人格环绕"""
+    import math
+
+    img = Image.new("RGB", (W, H), RED)
+    d = ImageDraw.Draw(img)
+
+    tag = "6 型人格 · 测完再点单"
+    f_tag = load_font(32)
+    tw = d.textlength(tag, font=f_tag)
+    _rounded(d, ((W - tw) / 2 - 34, 70, (W + tw) / 2 + 34, 140), 35, YELLOW)
+    d.text(((W - tw) / 2, 82), tag, font=f_tag, fill=RED)
+
+    _center_text(d, 185, "你是哪种", load_font(100), WHITE)
+    _center_text(d, 310, "麦门人格？", load_font(100), WHITE)
+    _center_text(d, 455, "隐藏吃法 × 人格测试", load_font(42), YELLOW)
+
+    cx, cy = W // 2, 915
+    d.ellipse((cx - 185, cy - 185, cx + 185, cy + 185), fill=YELLOW)
+    qf = load_font(260)
+    qw = d.textlength("?", font=qf)
+    d.text((cx - qw / 2, cy - 175), "?", font=qf, fill=RED)
+
+    names = ["甜系", "咸香", "冰火", "轻享", "复古", "省钱"]
+    for i, name in enumerate(names):
+        ang = math.radians(90 - i * 60)
+        sx = cx + int(300 * math.cos(ang))
+        sy = cy - int(300 * math.sin(ang))
+        r = 80
+        fill = WHITE if i % 2 == 0 else YELLOW
+        d.ellipse((sx - r, sy - r, sx + r, sy + r), fill=fill)
+        f = load_font(40)
+        nw = d.textlength(name, font=f)
+        d.text((sx - nw / 2, sy - 27), name, font=f, fill=RED)
+
+    _center_text(d, 1330, "14 种隐藏吃法等你解锁", load_font(40), CREAM)
+
+    img.save(out_path, "PNG")
+    return out_path
+
+
+def make_quiz_cover(out_path, social=False):
     """人格测试主视觉（小红书封面用）：6 型人格 + 扫码即玩"""
     img = Image.new("RGB", (W, H), RED)
     d = ImageDraw.Draw(img)
@@ -144,12 +190,17 @@ def make_quiz_cover(out_path):
         d.text((W - 130 - tw2, y + 6), tagline, font=load_font(28), fill=GRAY)
         y += 66
 
-    if qrcode is not None:
+    if not social and qrcode is not None:
         qr = qrcode.make(QUIZ_URL).convert("RGB").resize((170, 170))
         img.paste(qr, (90, H - 246))
-    d.text((292, H - 238), "扫码开始测试", font=load_font(46), fill=WHITE)
-    d.text((294, H - 176), "测完匹配你的专属配方卡", font=load_font(28), fill=CREAM)
-    draw_emblem(img, W - 240, H - 216, 108)
+    if social:
+        # 社媒清洁版：无二维码、无外链文字（防站外导流判定）
+        _center_text(d, H - 232, "6 型人格 · 你是哪一种？", load_font(46), WHITE)
+        _center_text(d, H - 168, "测完匹配你的专属配方卡", load_font(28), CREAM)
+    else:
+        d.text((292, H - 238), "扫码开始测试", font=load_font(46), fill=WHITE)
+        d.text((294, H - 176), "测完匹配你的专属配方卡", font=load_font(28), fill=CREAM)
+        draw_emblem(img, W - 240, H - 216, 108)
 
     img.save(out_path, "PNG")
     return out_path
@@ -183,8 +234,16 @@ def make_cards_grid(cards_dir, out_path):
 
 
 def main():
+    import argparse
+
+    ap = argparse.ArgumentParser(description="社交物料生成器")
+    ap.add_argument("outdir", nargs="?", default=None, help="输出目录（默认 assets/social）")
+    ap.add_argument("--social", action="store_true", help="同时生成社媒清洁版（反差封面/人格总览/合集，全部无码）")
+    ap.add_argument("--noscan-cards", default=None, help="无码配方卡目录（用于社媒合集图）")
+    args = ap.parse_args()
+
     base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    out_dir = sys.argv[1] if len(sys.argv) > 1 else os.path.join(base, "assets", "social")
+    out_dir = args.outdir or os.path.join(base, "assets", "social")
     os.makedirs(out_dir, exist_ok=True)
 
     p1 = make_cover(os.path.join(out_dir, "cover.png"))
@@ -193,6 +252,15 @@ def main():
     print("生成:", p1b)
     p2 = make_cards_grid(os.path.join(base, "assets", "cards"), os.path.join(out_dir, "all_cards.png"))
     print("生成:", p2)
+
+    if args.social:
+        ps1 = make_quiz_cover_social(os.path.join(out_dir, "cover_persona.png"))
+        print("生成(社媒):", ps1)
+        ps2 = make_quiz_cover(os.path.join(out_dir, "cover_quiz_noscan.png"), social=True)
+        print("生成(社媒):", ps2)
+        if args.noscan_cards:
+            ps3 = make_cards_grid(args.noscan_cards, os.path.join(out_dir, "all_cards_noscan.png"))
+            print("生成(社媒):", ps3)
 
 
 if __name__ == "__main__":

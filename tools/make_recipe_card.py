@@ -140,6 +140,10 @@ SECRET = {"no": "#015", "name": "浓缩可乐（隐藏彩蛋）", "price": "¥24
      "flavor": "气泡 × 咖啡 · 意式新喝法", "kcal": "约 160 kcal"}
 
 
+# 彩蛋/社媒模式用常量
+SOCIAL_FOOTER = "麦门隐藏菜单实验室 · 参赛作品"  # 社媒清洁版：替换 GitHub 链接行，防外链判定
+
+
 def _rounded(d, box, radius, fill):
     try:
         d.rounded_rectangle(box, radius=radius, fill=fill)
@@ -147,7 +151,7 @@ def _rounded(d, box, radius, fill):
         d.rectangle(box, fill=fill)
 
 
-def make_card(r, out_path):
+def make_card(r, out_path, qr=True, social=False):
     img = Image.new("RGB", (W, H), RED)
     d = ImageDraw.Draw(img)
 
@@ -215,34 +219,46 @@ def make_card(r, out_path):
            font=load_font(26), fill=RED)
     y += 60
 
-    # 底部注脚（含仓库地址：卡片被转发后也能找到来源）
+    # 底部注脚（含仓库地址：卡片被转发后也能找到来源；社媒清洁版替换为中性文案）
     d.text((x, H - 162), "价格经麦当劳 MCP 实时核验 · 2026-10-10", font=load_font(24), fill=GRAY)
-    d.text((x, H - 132), "github.com/Reak-Z/mcd-secret-menu-lab", font=load_font(26), fill=RED)
+    d.text((x, H - 132), SOCIAL_FOOTER if social else "github.com/Reak-Z/mcd-secret-menu-lab",
+           font=load_font(26), fill=RED)
     d.text((x, H - 102), "仅供创意参考 · 非麦当劳官方产品", font=load_font(24), fill=GRAY)
 
-    # 二维码（右下角，扫码直达在线配方画廊）
-    if qrcode is not None:
+    # 二维码（右下角，扫码直达在线配方画廊；社媒清洁版跳过，防外链判定）
+    if qr and not social and qrcode is not None:
         d.text((W - 250, H - 282), "扫码看全部配方", font=load_font(20), fill=GRAY)
-        qr = qrcode.make(GALLERY_URL).convert("RGB").resize((140, 140))
-        img.paste(qr, (W - 250, H - 252))
+        qr_img = qrcode.make(GALLERY_URL).convert("RGB").resize((140, 140))
+        img.paste(qr_img, (W - 250, H - 252))
 
     img.save(out_path, "PNG")
     return out_path
 
 
 def main():
-    out_dir = sys.argv[1] if len(sys.argv) > 1 else os.path.join(
+    import argparse
+    ap = argparse.ArgumentParser(description="配方卡生成器")
+    ap.add_argument("outdir", nargs="?", default=None, help="输出目录（默认 assets/cards）")
+    ap.add_argument("--no-qr", action="store_true", dest="no_qr",
+                    help="生成无二维码版（社媒直发防限流用）")
+    ap.add_argument("--social", action="store_true",
+                    help="社媒清洁版：无二维码 + 去掉 GitHub 链接行（防外链/导流判定）")
+    args = ap.parse_args()
+
+    out_dir = args.outdir or os.path.join(
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "cards")
     os.makedirs(out_dir, exist_ok=True)
+    use_qr = not args.no_qr
+    social = args.social
     for r in RECIPES:
         p = os.path.join(out_dir, "card_%s.png" % r["no"].lstrip("#"))
-        make_card(r, p)
+        make_card(r, p, qr=use_qr, social=social)
         print("生成:", p)
     # 隐藏彩蛋卡（图鉴集齐解锁）
     p = os.path.join(out_dir, "card_%s.png" % SECRET["no"].lstrip("#"))
-    make_card(SECRET, p)
+    make_card(SECRET, p, qr=use_qr, social=social)
     print("生成(彩蛋):", p)
-    print("完成，共 %d 张 + 1 张彩蛋" % len(RECIPES))
+    print("完成，共 %d 张 + 1 张彩蛋%s" % (len(RECIPES), "（社媒清洁版）" if social else ("（无二维码模式）" if not use_qr else "")))
 
 
 if __name__ == "__main__":
