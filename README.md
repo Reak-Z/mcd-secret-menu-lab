@@ -11,6 +11,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![MCP](https://img.shields.io/badge/MCP-McDonald's%20China-DA291C)](https://github.com/M-China/mcd-mcp-server)
 [![Powered by WorkBuddy](https://img.shields.io/badge/Powered%20by-WorkBuddy-2F6BFF)](https://www.workbuddy.cn/)
+[![Featured in agentic-awesome-skills](https://img.shields.io/badge/featured%20in-agentic--awesome--skills-brightgreen?logo=github&logoColor=white)](https://github.com/sickn33/agentic-awesome-skills)
 
 **基于 [麦当劳中国官方 MCP](https://github.com/M-China/mcd-mcp-server) 开发 · 使用 [WorkBuddy](https://www.workbuddy.cn/) 构建**
 
